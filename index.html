@@ -3,228 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERROIR — The Art of Liquid</title>
+    <title>Brom — Developer & Builder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- Loading Screen -->
     <div class="loader" id="loader">
-        <div class="font-serif text-4xl md:text-6xl text-ochre tracking-widest">TERROIR</div>
-        <div class="loader-bar">
-            <div class="loader-progress" id="loader-progress"></div>
+        <div class="loader-content">
+            <div class="loader-logo">brom<span class="loader-dot">.</span></div>
+            <div class="loader-bar">
+                <div class="loader-fill" id="loader-fill"></div>
+            </div>
+            <div class="loader-status">Initializing<span class="loader-dots">...</span></div>
         </div>
-        <div class="mt-4 text-xs tracking-[0.5em] text-white/40 uppercase">Curating Excellence</div>
     </div>
 
     <!-- Custom Cursor -->
     <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-outline hidden md:block"></div>
-    <div class="spotlight hidden md:block" id="spotlight"></div>
+    <div class="cursor-ring hidden md:block"></div>
 
-    <!-- Grain Overlay -->
-    <div class="grain"></div>
+    <!-- Ambient Background -->
+    <div class="ambient-bg" id="ambient-bg">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+        <div class="ambient-grid"></div>
+    </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-6 transition-all duration-500" id="navbar">
-        <div class="flex justify-between items-center">
-            <a href="#" class="font-serif text-2xl md:text-3xl text-ochre tracking-widest z-50 relative">TERROIR</a>
-            
-            <div class="hidden md:flex items-center gap-12">
-                <a href="#collections" class="nav-link text-xs tracking-[0.3em] uppercase text-white/80 hover:text-white transition-colors">Collections</a>
-                <a href="#terroir" class="nav-link text-xs tracking-[0.3em] uppercase text-white/80 hover:text-white transition-colors">Terroir</a>
-                <a href="#tasting" class="nav-link text-xs tracking-[0.3em] uppercase text-white/80 hover:text-white transition-colors">Tasting</a>
-                <a href="#journal" class="nav-link text-xs tracking-[0.3em] uppercase text-white/80 hover:text-white transition-colors">Journal</a>
-                <a href="#contact" class="liquid-btn px-8 py-3 text-xs tracking-[0.3em] uppercase text-ochre">Reserve</a>
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <span class="logo-bracket">[</span>brom<span class="logo-dot">.</span><span class="logo-bracket">]</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="#about" class="nav-link" data-text="About"><span>01</span> About</a>
+                <a href="#skills" class="nav-link" data-text="Skills"><span>02</span> Skills</a>
+                <a href="#projects" class="nav-link" data-text="Projects"><span>03</span> Projects</a>
+                <a href="#connect" class="nav-link" data-text="Connect"><span>04</span> Connect</a>
             </div>
-
-            <button class="md:hidden z-50 relative w-8 h-8 flex flex-col justify-center items-center gap-1.5" id="menu-toggle">
-                <span class="w-6 h-[1px] bg-white transition-all duration-300 origin-center" id="line1"></span>
-                <span class="w-6 h-[1px] bg-white transition-all duration-300" id="line2"></span>
-                <span class="w-6 h-[1px] bg-white transition-all duration-300 origin-center" id="line3"></span>
+            <button class="menu-btn" id="menu-btn" aria-label="Toggle menu">
+                <span class="menu-line"></span>
+                <span class="menu-line"></span>
+                <span class="menu-line"></span>
             </button>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div class="mobile-menu fixed inset-0 bg-midnight z-40 flex items-center justify-center" id="mobile-menu">
-        <div class="flex flex-col items-center gap-8">
-            <a href="#collections" class="font-serif text-4xl text-white/80 hover:text-ochre transition-colors mobile-link">Collections</a>
-            <a href="#terroir" class="font-serif text-4xl text-white/80 hover:text-ochre transition-colors mobile-link">Terroir</a>
-            <a href="#tasting" class="font-serif text-4xl text-white/80 hover:text-ochre transition-colors mobile-link">Tasting</a>
-            <a href="#journal" class="font-serif text-4xl text-white/80 hover:text-ochre transition-colors mobile-link">Journal</a>
-            <a href="#contact" class="mt-8 liquid-btn px-12 py-4 text-xs tracking-[0.3em] uppercase text-ochre">Reserve</a>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-bg"></div>
+        <div class="mobile-menu-content">
+            <a href="#about" class="mobile-link" data-index="01">About</a>
+            <a href="#skills" class="mobile-link" data-index="02">Skills</a>
+            <a href="#projects" class="mobile-link" data-index="03">Projects</a>
+            <a href="#connect" class="mobile-link" data-index="04">Connect</a>
         </div>
     </div>
 
-    <!-- Hero Section with Three.js -->
-    <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
-        <canvas id="hero-canvas"></canvas>
-        
-        <div class="relative z-10 text-center px-6 max-w-7xl mx-auto">
-            <div class="hero-subtitle mb-6 opacity-0" id="hero-subtitle">Est. 1897</div>
-            <h1 class="hero-title font-serif mb-8 opacity-0" id="hero-title">
-                <span class="block">LIQUID</span>
-                <span class="block italic text-ochre">Poetry</span>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-inner">
+            <div class="hero-tag">
+                <span class="tag-pulse"></span>
+                <span class="tag-text">Available for projects</span>
+            </div>
+
+            <h1 class="hero-title" id="hero-title">
+                <span class="title-line">Hey, I'm</span>
+                <span class="title-line title-name">
+                    <span class="name-char">B</span><span class="name-char">R</span><span class="name-char">O</span><span class="name-char">M</span>
+                </span>
+                <span class="title-line title-sub">Self-taught developer from <span class="highlight">Kenya</span></span>
             </h1>
-            <p class="text-white/60 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed opacity-0" id="hero-desc">
-                Where earth meets artistry. A curated sanctuary for the world's most exceptional wines and spirits, each bottle a testament to centuries of devotion.
+
+            <p class="hero-desc" id="hero-desc">
+                I build clean, modern websites that actually look and feel good. 
+                Turning random ideas into real projects — one line of code at a time.
             </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center opacity-0" id="hero-cta">
-                <a href="#collections" class="liquid-btn px-10 py-4 text-xs tracking-[0.3em] uppercase text-ochre magnetic">
-                    Explore Collections
+
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-primary">
+                    <span class="btn-text">View My Work</span>
+                    <span class="btn-arrow">→</span>
                 </a>
-                <a href="#terroir" class="text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors flex items-center gap-3 group">
-                    Our Philosophy
-                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
+                <a href="#connect" class="btn btn-ghost">
+                    <span class="btn-text">Let's Talk</span>
                 </a>
             </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-num" data-count="8">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">Years Learning</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-num" data-count="10">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">Projects Built</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-num infinity">∞</span>
+                    <span class="stat-label">Curiosity Level</span>
+                </div>
+            </div>
         </div>
 
-        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-4 opacity-0" id="scroll-indicator">
-            <span class="text-[10px] tracking-[0.5em] uppercase text-white/40">Scroll</span>
-            <div class="scroll-line"></div>
+        <div class="scroll-hint" id="scroll-hint">
+            <div class="scroll-line">
+                <div class="scroll-dot"></div>
+            </div>
+            <span class="scroll-text">Scroll to explore</span>
         </div>
     </section>
 
-    <!-- Marquee Section -->
-    <div class="py-8 border-y border-white/5 overflow-hidden bg-midnight relative z-10">
-        <div class="marquee-container">
-            <div class="marquee-content font-serif text-4xl md:text-6xl text-white/10 italic">
-                Bordeaux • Burgundy • Napa Valley • Tuscany • Champagne • Barossa • Rioja • Piedmont • Bordeaux • Burgundy • Napa Valley • Tuscany • Champagne • Barossa • Rioja • Piedmont •
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <div class="section-line"></div>
+                <span class="section-tag">About</span>
             </div>
-        </div>
-    </div>
 
-    <!-- Collections Section -->
-    <section id="collections" class="relative z-10 py-32 px-6 md:px-12 bg-midnight">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
-                <div>
-                    <span class="text-ochre text-xs tracking-[0.5em] uppercase mb-4 block">The Cellar</span>
-                    <h2 class="font-serif text-5xl md:text-7xl text-white leading-tight">
-                        Curated<br><span class="italic text-white/40">Collections</span>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="about-title">
+                        Build first.<br>
+                        <span class="gradient-text">Improve constantly.</span>
                     </h2>
+                    <div class="about-body">
+                        <p>I'm a self-taught web developer from Kenya who's obsessed with building clean, modern websites that actually look and feel good. I enjoy turning random ideas into real projects and learning something new every time I code.</p>
+                        <p>I started with simple HTML and CSS, and before long found myself experimenting with animations, glassmorphism, neon cyberpunk designs, and interactive interfaces. I'm still learning every day — and that's honestly my favorite part of programming.</p>
+                        <p class="about-quote">"There's always another challenge waiting."</p>
+                    </div>
                 </div>
-                <p class="text-white/40 text-sm max-w-md leading-relaxed">
-                    Each collection represents a journey through time and terroir, hand-selected by our master sommeliers from the world's most prestigious vineyards and distilleries.
-                </p>
+
+                <div class="about-cards">
+                    <div class="info-card" data-tilt>
+                        <div class="card-glow"></div>
+                        <div class="card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h3>Self-Taught</h3>
+                        <p>Learning through real projects, not just theory. Every bug is a lesson.</p>
+                    </div>
+
+                    <div class="info-card" data-tilt>
+                        <div class="card-glow"></div>
+                        <div class="card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <h3>Modern Stack</h3>
+                        <p>HTML, CSS, JavaScript — fundamentals done right. Clean, semantic, accessible.</p>
+                    </div>
+
+                    <div class="info-card" data-tilt>
+                        <div class="card-glow"></div>
+                        <div class="card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                            </svg>
+                        </div>
+                        <h3>AI-Assisted</h3>
+                        <p>Leveraging AI to speed up development and focus on creative problem-solving.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <div class="section-line"></div>
+                <span class="section-tag">What I Work With</span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Collection Card 1 -->
-                <div class="collection-card group h-[500px] md:h-[600px] cursor-pointer" data-tilt>
-                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80" alt="Grand Crus" class="absolute inset-0 w-full h-full object-cover vintage-img">
-                    <div class="card-overlay absolute inset-0"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <div class="card-content">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">01</span>
-                            <h3 class="font-serif text-3xl md:text-4xl text-white mb-2">Grand Crus</h3>
-                            <p class="text-white/60 text-sm mb-6">First Growth Bordeaux and Premier Cru Burgundy</p>
-                            <div class="flex items-center gap-4">
-                                <span class="text-ochre text-xs tracking-widest uppercase">42 Bottles</span>
-                                <div class="w-8 h-[1px] bg-ochre/30"></div>
-                                <span class="text-white/40 text-xs">1982 — 2020</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="skills-layout">
+                <div class="skills-main">
+                    <h2 class="skills-title">Tools &<br><span class="gradient-text">Technologies</span></h2>
+                    <p class="skills-desc">My current stack. Always expanding, always evolving.</p>
                 </div>
 
-                <!-- Collection Card 2 -->
-                <div class="collection-card group h-[500px] md:h-[600px] cursor-pointer" data-tilt>
-                    <img src="https://images.unsplash.com/photo-1566995541428-f2246c17cda1?w=800&q=80" alt="Single Malts" class="absolute inset-0 w-full h-full object-cover vintage-img">
-                    <div class="card-overlay absolute inset-0"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <div class="card-content">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">02</span>
-                            <h3 class="font-serif text-3xl md:text-4xl text-white mb-2">Single Malts</h3>
-                            <p class="text-white/60 text-sm mb-6">Rare Scottish distilleries, cask strength editions</p>
-                            <div class="flex items-center gap-4">
-                                <span class="text-ochre text-xs tracking-widest uppercase">28 Bottles</span>
-                                <div class="w-8 h-[1px] bg-ochre/30"></div>
-                                <span class="text-white/40 text-xs">1965 — 2019</span>
-                            </div>
+                <div class="skills-matrix">
+                    <div class="skill-group">
+                        <span class="group-label">Core</span>
+                        <div class="skill-items">
+                            <span class="skill-item" data-level="95">HTML5</span>
+                            <span class="skill-item" data-level="90">CSS3</span>
+                            <span class="skill-item" data-level="85">JavaScript</span>
+                            <span class="skill-item" data-level="80">ES6+</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Collection Card 3 -->
-                <div class="collection-card group h-[500px] md:h-[600px] cursor-pointer" data-tilt>
-                    <img src="https://images.unsplash.com/photo-1470158499416-75be9aa0c4db?w=800&q=80" alt="Champagne" class="absolute inset-0 w-full h-full object-cover vintage-img">
-                    <div class="card-overlay absolute inset-0"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <div class="card-content">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">03</span>
-                            <h3 class="font-serif text-3xl md:text-4xl text-white mb-2">Champagne</h3>
-                            <p class="text-white/60 text-sm mb-6">Prestige cuvées and vintage magnums</p>
-                            <div class="flex items-center gap-4">
-                                <span class="text-ochre text-xs tracking-widest uppercase">36 Bottles</span>
-                                <div class="w-8 h-[1px] bg-ochre/30"></div>
-                                <span class="text-white/40 text-xs">1990 — 2022</span>
-                            </div>
+                    <div class="skill-group">
+                        <span class="group-label">Workflow</span>
+                        <div class="skill-items">
+                            <span class="skill-item" data-level="85">Git</span>
+                            <span class="skill-item" data-level="80">GitHub</span>
+                            <span class="skill-item" data-level="75">GitHub Pages</span>
+                            <span class="skill-item" data-level="90">VS Code</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Collection Card 4 -->
-                <div class="collection-card group h-[500px] md:h-[600px] cursor-pointer" data-tilt>
-                    <img src="https://images.unsplash.com/photo-1559563362-c667ba5f5480?w=800&q=80" alt="New World" class="absolute inset-0 w-full h-full object-cover vintage-img">
-                    <div class="card-overlay absolute inset-0"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <div class="card-content">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">04</span>
-                            <h3 class="font-serif text-3xl md:text-4xl text-white mb-2">New World</h3>
-                            <p class="text-white/60 text-sm mb-6">Napa, Barossa, and emerging terroirs</p>
-                            <div class="flex items-center gap-4">
-                                <span class="text-ochre text-xs tracking-widest uppercase">54 Bottles</span>
-                                <div class="w-8 h-[1px] bg-ochre/30"></div>
-                                <span class="text-white/40 text-xs">2005 — 2023</span>
-                            </div>
+                    <div class="skill-group">
+                        <span class="group-label">Design</span>
+                        <div class="skill-items">
+                            <span class="skill-item" data-level="80">UI/UX</span>
+                            <span class="skill-item" data-level="70">Figma</span>
+                            <span class="skill-item" data-level="85">Responsive</span>
+                            <span class="skill-item" data-level="75">Prototyping</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Collection Card 5 -->
-                <div class="collection-card group h-[500px] md:h-[600px] cursor-pointer" data-tilt>
-                    <img src="https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800&q=80" alt="Cognac" class="absolute inset-0 w-full h-full object-cover vintage-img">
-                    <div class="card-overlay absolute inset-0"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <div class="card-content">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">05</span>
-                            <h3 class="font-serif text-3xl md:text-4xl text-white mb-2">Cognac & Armagnac</h3>
-                            <p class="text-white/60 text-sm mb-6">XO and Hors d'Âge from Grande Champagne</p>
-                            <div class="flex items-center gap-4">
-                                <span class="text-ochre text-xs tracking-widest uppercase">19 Bottles</span>
-                                <div class="w-8 h-[1px] bg-ochre/30"></div>
-                                <span class="text-white/40 text-xs">1875 — 2008</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Collection Card 6 -->
-                <div class="collection-card group h-[500px] md:h-[600px] cursor-pointer" data-tilt>
-                    <img src="https://images.unsplash.com/photo-1553706108-53420d4cd20a?w=800&q=80" alt="Library" class="absolute inset-0 w-full h-full object-cover vintage-img">
-                    <div class="card-overlay absolute inset-0"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <div class="card-content">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">06</span>
-                            <h3 class="font-serif text-3xl md:text-4xl text-white mb-2">The Library</h3>
-                            <p class="text-white/60 text-sm mb-6">Investment-grade vintages and limited editions</p>
-                            <div class="flex items-center gap-4">
-                                <span class="text-ochre text-xs tracking-widest uppercase">12 Bottles</span>
-                                <div class="w-8 h-[1px] bg-ochre/30"></div>
-                                <span class="text-white/40 text-xs">1945 — 2015</span>
-                            </div>
+                    <div class="skill-group">
+                        <span class="group-label">AI Tools</span>
+                        <div class="skill-items">
+                            <span class="skill-item" data-level="90">AI Coding</span>
+                            <span class="skill-item" data-level="85">Prompt Eng</span>
+                            <span class="skill-item" data-level="80">Rapid Proto</span>
                         </div>
                     </div>
                 </div>
@@ -232,315 +246,227 @@
         </div>
     </section>
 
-    <!-- Parallax Quote Section -->
-    <section class="parallax-section h-[80vh] flex items-center justify-center relative">
-        <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1920&q=80');"></div>
-        <div class="absolute inset-0 bg-black/60"></div>
-        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
-            <span class="text-ochre text-6xl font-serif mb-8 block opacity-50">"</span>
-            <blockquote class="font-serif text-3xl md:text-5xl lg:text-6xl text-white leading-tight mb-8 italic reveal-text" id="quote-text">
-                Wine is bottled poetry.
-            </blockquote>
-            <cite class="text-white/60 text-sm tracking-[0.3em] uppercase not-italic">— Robert Louis Stevenson</cite>
-        </div>
-    </section>
+    <!-- Interests Section -->
+    <section class="interests" id="interests">
+        <div class="section-inner">
+            <div class="interests-header">
+                <h2 class="interests-title">Beyond the <span class="gradient-text">Code</span></h2>
+                <p class="interests-sub">What fuels the creativity when I'm not debugging.</p>
+            </div>
 
-    <!-- Terroir Section -->
-    <section id="terroir" class="relative z-10 py-32 px-6 md:px-12 bg-midnight">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                <div>
-                    <span class="text-ochre text-xs tracking-[0.5em] uppercase mb-4 block">Philosophy</span>
-                    <h2 class="font-serif text-5xl md:text-7xl text-white leading-tight mb-8">
-                        The Soul of<br><span class="italic text-ochre">Terroir</span>
-                    </h2>
-                    <p class="text-white/60 text-sm leading-relaxed mb-6">
-                        Terroir is more than soil and climate—it is the invisible hand that shapes every drop. From the limestone slopes of Champagne to the granite hills of Barossa, we trace the lineage of each bottle to its origin.
-                    </p>
-                    <p class="text-white/60 text-sm leading-relaxed mb-10">
-                        Our master sommeliers spend months in the field, building relationships with generational winemakers and distillers who share our obsession with authenticity. We don't just curate wine; we preserve stories.
-                    </p>
-                    
-                    <div class="space-y-6">
-                        <div class="accordion-item active">
-                            <div class="accordion-header flex justify-between items-center py-6">
-                                <span class="font-serif text-xl text-white">Provenance Guarantee</span>
-                                <svg class="accordion-icon w-6 h-6 text-ochre" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4v16m8-8H4"/>
-                                </svg>
-                            </div>
-                            <div class="accordion-body">
-                                <p class="text-white/50 text-sm leading-relaxed pb-6">
-                                    Every bottle is accompanied by a blockchain-verified certificate of authenticity, tracing its journey from vineyard to cellar. Temperature-controlled provenance from day one.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item">
-                            <div class="accordion-header flex justify-between items-center py-6">
-                                <span class="font-serif text-xl text-white">Cellar Conditions</span>
-                                <svg class="accordion-icon w-6 h-6 text-ochre" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4v16m8-8H4"/>
-                                </svg>
-                            </div>
-                            <div class="accordion-body">
-                                <p class="text-white/50 text-sm leading-relaxed pb-6">
-                                    Our private vault maintains 12°C and 75% humidity year-round. Each bottle rests in custom-crafted French oak racking, undisturbed until the moment of opening.
-                                </p>
-                            </div>
-                        </div>
-                                                            <span class="font-serif text-xl text-white">White Glove Service</span>
-                                <svg class="accordion-icon w-6 h-6 text-ochre" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4v16m8-8H4"/>
-                                </svg>
-                            </div>
-                            <div class="accordion-body">
-                                <p class="text-white/50 text-sm leading-relaxed pb-6">
-                                    From private tastings in our London salon to bespoke cellar consultations, our concierge team ensures every interaction is as refined as the wines we represent.
-                                </p>
-                            </div>
-                        </div>
+            <div class="interests-grid">
+                <div class="interest-card">
+                    <div class="interest-visual">
+                        <div class="interest-orb"></div>
                     </div>
+                    <h3>Cultivation Novels</h3>
+                    <p>Nano Machine, Descent of the Demon God — stories where the MC grinds from zero to godlike. Relatable.</p>
                 </div>
-
-                <div class="relative">
-                    <div class="aspect-[3/4] overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?w=800&q=80" alt="Vineyard" class="w-full h-full object-cover vintage-img">
+                <div class="interest-card">
+                    <div class="interest-visual">
+                        <div class="interest-orb orb-green"></div>
                     </div>
-                    <div class="absolute -bottom-10 -left-10 glass-panel p-8 max-w-xs hidden md:block">
-                        <div class="text-ochre text-4xl font-serif mb-2">127</div>
-                        <div class="text-white/60 text-xs tracking-widest uppercase">Partner Vineyards</div>
-                        <div class="w-full h-[1px] bg-white/10 my-4"></div>
-                        <div class="text-ochre text-4xl font-serif mb-2">14</div>
-                        <div class="text-white/60 text-xs tracking-widest uppercase">Countries Represented</div>
+                    <h3>Manhwa & Anime</h3>
+                    <p>Solo Leveling and anything with an overpowered protagonist. Visual storytelling at its finest.</p>
+                </div>
+                <div class="interest-card">
+                    <div class="interest-visual">
+                        <div class="interest-orb orb-blue"></div>
                     </div>
+                    <h3>Football</h3>
+                    <p>Following the beautiful game. Strategy, passion, and moments of pure brilliance.</p>
+                </div>
+                <div class="interest-card">
+                    <div class="interest-visual">
+                        <div class="interest-orb orb-purple"></div>
+                    </div>
+                    <h3>AI & New Tech</h3>
+                    <p>Exploring what's next. Always curious about emerging tools and where the industry is heading.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Tasting Experience Section -->
-    <section id="tasting" class="relative z-10 py-32 px-6 md:px-12 bg-[#080808]">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <span class="text-ochre text-xs tracking-[0.5em] uppercase mb-4 block">Sensory Journey</span>
-                <h2 class="font-serif text-5xl md:text-7xl text-white leading-tight mb-6">
-                    The <span class="italic text-ochre">Tasting</span> Room
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <div class="section-line"></div>
+                <span class="section-tag">Featured Work</span>
+            </div>
+
+            <div class="projects-list">
+                <article class="project-item" data-project="1">
+                    <div class="project-num">01</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Portfolio V1</h3>
+                        <p class="project-desc">First personal website built with HTML, CSS, and vanilla JavaScript. Deployed on GitHub Pages. The foundation of everything that came after.</p>
+                        <div class="project-tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">
+                        <span>View</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+                </article>
+
+                <article class="project-item" data-project="2">
+                    <div class="project-num">02</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Interactive Dashboard</h3>
+                        <p class="project-desc">Data visualization project with dynamic charts, dark mode UI, and responsive grid layout. Experimenting with real-time data presentation.</p>
+                        <div class="project-tags">
+                            <span>JavaScript</span>
+                            <span>CSS Grid</span>
+                            <span>API</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">
+                        <span>View</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+                </article>
+
+                <article class="project-item" data-project="3">
+                    <div class="project-num">03</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Landing Page Series</h3>
+                        <p class="project-desc">Collection of modern landing pages experimenting with animations, gradients, glassmorphism, and micro-interactions. Each one a new technique learned.</p>
+                        <div class="project-tags">
+                            <span>CSS Animations</span>
+                            <span>UI Design</span>
+                            <span>Glassmorphism</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">
+                        <span>View</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goal Section -->
+    <section class="goal" id="goal">
+        <div class="section-inner">
+            <div class="goal-content">
+                <span class="goal-label">Current Goal</span>
+                <h2 class="goal-title">
+                    Become a <span class="gradient-text">full-stack developer</span> and create applications people enjoy using.
                 </h2>
-                <p class="text-white/40 text-sm max-w-2xl mx-auto">
-                    Experience our collection through an interactive sensory profile. Select a vintage to explore its unique characteristics.
-                </p>
-            </div>
-
-            <!-- Interactive Tasting Card -->
-            <div class="glass-panel p-8 md:p-12 max-w-5xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <!-- Bottle Selection -->
-                    <div>
-                        <div class="bottle-viewer h-[400px] flex items-center justify-center mb-8" id="bottle-viewer">
-                            <div class="bottle-3d relative" id="bottle-3d">
-                                <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=400&q=80" alt="Wine Bottle" class="h-[350px] object-contain drop-shadow-2xl" id="bottle-img">
-                            </div>
-                        </div>
-                        
-                        <div class="flex justify-center gap-4">
-                            <div class="wine-swatch active" style="background: #722F37;" data-wine="pinot" title="Pinot Noir"></div>
-                            <div class="wine-swatch" style="background: #4A0E0E;" data-wine="cabernet" title="Cabernet Sauvignon"></div>
-                            <div class="wine-swatch" style="background: #F5E6D3;" data-wine="chardonnay" title="Chardonnay"></div>
-                            <div class="wine-swatch" style="background: #D4AF37;" data-wine="champagne" title="Champagne"></div>
-                            <div class="wine-swatch" style="background: #8B4513;" data-wine="whiskey" title="Single Malt"></div>
-                        </div>
-                    </div>
-
-                    <!-- Tasting Notes -->
-                    <div class="flex flex-col justify-center">
-                        <div class="mb-2">
-                            <span class="text-ochre text-xs tracking-[0.3em] uppercase" id="wine-year">2018</span>
-                        </div>
-                        <h3 class="font-serif text-4xl text-white mb-2" id="wine-name">Romanée-Conti</h3>
-                        <p class="text-white/40 text-sm mb-8" id="wine-region">Côte de Nuits, Burgundy</p>
-                        
-                        <div class="space-y-6">
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-white/60 text-xs uppercase tracking-widest">Body</span>
-                                    <span class="text-ochre text-xs" id="body-val">Medium</span>
-                                </div>
-                                <div class="taste-bar">
-                                    <div class="taste-bar-fill" id="body-bar" style="width: 60%;"></div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-white/60 text-xs uppercase tracking-widest">Tannin</span>
-                                    <span class="text-ochre text-xs" id="tannin-val">Silky</span>
-                                </div>
-                                <div class="taste-bar">
-                                    <div class="taste-bar-fill" id="tannin-bar" style="width: 40%;"></div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-white/60 text-xs uppercase tracking-widest">Acidity</span>
-                                    <span class="text-ochre text-xs" id="acidity-val">Bright</span>
-                                </div>
-                                <div class="taste-bar">
-                                    <div class="taste-bar-fill" id="acidity-bar" style="width: 75%;"></div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-white/60 text-xs uppercase tracking-widest">Sweetness</span>
-                                    <span class="text-ochre text-xs" id="sweet-val">Dry</span>
-                                </div>
-                                <div class="taste-bar">
-                                    <div class="taste-bar-fill" id="sweet-bar" style="width: 10%;"></div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-white/60 text-xs uppercase tracking-widest">Finish</span>
-                                    <span class="text-ochre text-xs" id="finish-val">Long</span>
-                                </div>
-                                <div class="taste-bar">
-                                    <div class="taste-bar-fill" id="finish-bar" style="width: 85%;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 pt-8 border-t border-white/10">
-                            <p class="text-white/50 text-sm italic leading-relaxed" id="wine-desc">
-                                "An ethereal bouquet of dried roses, wild strawberries, and forest floor. The palate reveals layers of red cherry, truffle, and a mineral tension that speaks to its noble terroir."
-                            </p>
-                            <div class="mt-4 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-ochre/20 flex items-center justify-center">
-                                    <span class="text-ochre text-xs">JS</span>
-                                </div>
-                                <span class="text-white/40 text-xs">James Suckling, 99 Points</span>
-                            </div>
-                        </div>
-                    </div>
+                <p class="goal-desc">Constantly pushing myself to learn new technologies. Every project is another level up.</p>
+                <div class="goal-tags">
+                    <span class="goal-tag">Build First</span>
+                    <span class="goal-tag">Iterate Fast</span>
+                    <span class="goal-tag">Ship Often</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Journal Section -->
-    <section id="journal" class="relative z-10 py-32 px-6 md:px-12 bg-midnight">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
-                <div>
-                    <span class="text-ochre text-xs tracking-[0.5em] uppercase mb-4 block">Stories</span>
-                    <h2 class="font-serif text-5xl md:text-7xl text-white leading-tight">
-                        The <span class="italic text-white/40">Journal</span>
+    <!-- Connect Section -->
+    <section class="connect" id="connect">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-num">04</span>
+                <div class="section-line"></div>
+                <span class="section-tag">Let's Connect</span>
+            </div>
+
+            <div class="connect-layout">
+                <div class="connect-text">
+                    <h2 class="connect-title">
+                        Have an idea?<br>
+                        <span class="gradient-text">Let's build it.</span>
                     </h2>
+                    <p class="connect-desc">Open to collaborations, freelance projects, or just talking about code, football, or the latest manhwa drop.</p>
                 </div>
-                <a href="#" class="text-xs tracking-[0.3em] uppercase text-ochre hover:text-white transition-colors flex items-center gap-3 group">
-                    View All Stories
-                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </a>
+
+                <div class="connect-links">
+                    <a href="https://github.com/bromtrader" target="_blank" class="connect-card" data-connect="github">
+                        <div class="connect-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.2                            1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </div>
+                        <div class="connect-info">
+                            <span class="connect-name">GitHub</span>
+                            <span class="connect-handle">@bromtrader</span>
+                        </div>
+                        <svg class="connect-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+
+                    <a href="mailto:hello@brom.dev" class="connect-card" data-connect="email">
+                        <div class="connect-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="M22 7l-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/>
+                            </svg>
+                        </div>
+                        <div class="connect-info">
+                            <span class="connect-name">Email</span>
+                            <span class="connect-handle">hello@brom.dev</span>
+                        </div>
+                        <svg class="connect-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+
+                    <a href="#" class="connect-card" data-connect="twitter">
+                        <div class="connect-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </div>
+                        <div class="connect-info">
+                            <span class="connect-name">X / Twitter</span>
+                            <span class="connect-handle">@bromtrader</span>
+                        </div>
+                        <svg class="connect-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+
+                    <a href="#" class="connect-card" data-connect="linkedin">
+                        <div class="connect-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </div>
+                        <div class="connect-info">
+                            <span class="connect-name">LinkedIn</span>
+                            <span class="connect-handle">/in/bromtrader</span>
+                        </div>
+                        <svg class="connect-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <article class="group cursor-pointer">
-                    <div class="aspect-[4/5] overflow-hidden mb-6">
-                        <img src="https://images.unsplash.com/photo-1504279577054-1235679d0 ?w=600&q=80" alt="Journal 1" class="w-full h-full object-cover vintage-img group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">Harvest 2023</span>
-                    <h3 class="font-serif text-2xl text-white mb-3 group-hover:text-ochre transition-colors">The Art of Biodynamic Viticulture</h3>
-                    <p class="text-white/40 text-sm leading-relaxed mb-4">Exploring the mystical practices behind some of Burgundy's most sought-after vineyards.</p>
-                    <span class="text-white/30 text-xs">12 min read</span>
-                </article>
-
-                <article class="group cursor-pointer">
-                    <div class="aspect-[4/5] overflow-hidden mb-6">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80" alt="Journal 2" class="w-full h-full object-cover vintage-img group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">Spirits</span>
-                    <h3 class="font-serif text-2xl text-white mb-3 group-hover:text-ochre transition-colors">Lost Distilleries of Islay</h3>
-                    <p class="text-white/40 text-sm leading-relaxed mb-4">A journey through the ghost distilleries that define the golden age of Scotch whisky.</p>
-                    <span class="text-white/30 text-xs">18 min read</span>
-                </article>
-
-                <article class="group cursor-pointer">
-                    <div class="aspect-[4/5] overflow-hidden mb-6">
-                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Journal 3" class="w-full h-full object-cover vintage-img group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <span class="text-ochre text-xs tracking-[0.3em] uppercase mb-2 block">Pairing</span>
-                    <h3 class="font-serif text-2xl text-white mb-3 group-hover:text-ochre transition-colors">Michelin Stars & Magnums</h3>
-                    <p class="text-white/40 text-sm leading-relaxed mb-4">Three-star chefs reveal their most extraordinary wine pairings from the cellar.</p>
-                    <span class="text-white/30 text-xs">15 min read</span>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact / Reserve Section -->
-    <section id="contact" class="relative z-10 py-32 px-6 md:px-12 bg-[#080808]">
-        <div class="max-w-4xl mx-auto text-center">
-            <span class="text-ochre text-xs tracking-[0.5em] uppercase mb-4 block">Private Access</span>
-            <h2 class="font-serif text-5xl md:text-7xl text-white leading-tight mb-8">
-                Join the <span class="italic text-ochre">Inner Circle</span>
-            </h2>
-            <p class="text-white/40 text-sm max-w-xl mx-auto mb-12 leading-relaxed">
-                Gain exclusive access to rare allocations, private tastings, and personalized cellar consultations. Membership is limited and by invitation only.
-            </p>
-
-            <form class="max-w-md mx-auto space-y-6" id="reserve-form">
-                <div class="relative">
-                    <input type="text" placeholder="Full Name" class="w-full bg-transparent border-b border-white/20 py-4 text-white text-sm placeholder-white/30 focus:outline-none focus:border-ochre transition-colors">
-                </div>
-                <div class="relative">
-                    <input type="email" placeholder="Email Address" class="w-full bg-transparent border-b border-white/20 py-4 text-white text-sm placeholder-white/30 focus:outline-none focus:border-ochre transition-colors">
-                </div>
-                <div class="relative">
-                    <select class="w-full bg-transparent border-b border-white/20 py-4 text-white/30 text-sm focus:outline-none focus:border-ochre transition-colors appearance-none cursor-pointer">
-                        <option value="" class="bg-midnight">Interest — Select</option>
-                        <option value="wine" class="bg-midnight">Fine Wine Collection</option>
-                        <option value="spirits" class="bg-midnight">Rare Spirits</option>
-                        <option value="both" class="bg-midnight">Both</option>
-                    </select>
-                </div>
-                <button type="submit" class="liquid-btn w-full py-4 text-xs tracking-[0.3em] uppercase text-ochre mt-8 magnetic">
-                    Request Invitation
-                </button>
-            </form>
-
-            <div class="mt-16 pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="text-center md:text-left">
-                    <div class="text-ochre font-serif text-xl mb-1">TERROIR</div>
-                    <div class="text-white/30 text-xs tracking-widest">LONDON • PARIS • TOKYO</div>
-                </div>
-                <div class="flex gap-8">
-                    <a href="#" class="text-white/30 hover:text-ochre transition-colors text-xs tracking-widest uppercase">Instagram</a>
-                    <a href="#" class="text-white/30 hover:text-ochre transition-colors text-xs tracking-widest uppercase">Twitter</a>
-                    <a href="#" class="text-white/30 hover:text-ochre transition-colors text-xs tracking-widest uppercase">LinkedIn</a>
+            <div class="footer">
+                <div class="footer-line"></div>
+                <div class="footer-content">
+                    <p class="footer-text">Designed & Built by <span class="footer-name">Brom</span></p>
+                    <p class="footer-year">2026</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="relative z-10 py-12 px-6 md:px-12 bg-midnight border-t border-white/5">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-white/20 text-xs tracking-widest">
-                 TERROIR. All rights reserved.
-            </div>
-            <div class="flex gap-8">
-                <a href="#" class="text-white/20 hover:text-white/60 transition-colors text-xs tracking-widest uppercase">Privacy</a>
-                <a href="#" class="text-white/20 hover:text-white/60 transition-colors text-xs tracking-widest uppercase">Terms</a>
-                <a href="#" class="text-white/20 hover:text-white/60 transition-colors text-xs tracking-widest uppercase">Contact</a>
-            </div>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
-                                  </html>
-  
+    </html>
